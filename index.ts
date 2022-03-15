@@ -8,12 +8,23 @@ import { ServiceFactory } from './service'
         await bot.open({
             verifyKey: config.verifyKey,
             baseUrl: config.baseUrl,
-            qq: config.qq,
+            qq: config.qq
         });
+
+        const botSet: Set<number> = new Set()
 
         bot.on('GroupMessage', new Middleware()
             .groupFilter(config.groupList, true)
             .textProcessor()
+            .messageIdProcessor()
+            .use(async (ctx, next) => {
+                if (botSet.has(ctx.sender?.id) || (await bot.getUserProfile({ qq: ctx.sender?.id })).level == 0) {
+                    ctx.bot.recall({ messageId: ctx.messageId })
+                    botSet.add(ctx.sender?.id)
+                    return
+                }
+                await next()
+            })
             .done(async (ctx) => {
                 try {
                     await ServiceFactory.createService(ctx.text)?.service(ctx)
