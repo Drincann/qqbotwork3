@@ -1,0 +1,19 @@
+{
+  "name": "qqbotwork",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node-cron": "^3.0.1",
+    "typescript": "^4.6.2"
+  },
+  "dependencies": {
+    "mirai-js": "^2.4.2",
+    "node-cron": "^3.0.0"
+  }
+}
